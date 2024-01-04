@@ -1,13 +1,17 @@
 package com.charlie.pictureapp
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.charlie.pictureapp.databinding.ActivityMainBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
@@ -15,6 +19,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if(!hasRequiredPermissions()){
+            ActivityCompat.requestPermissions(
+                this, CAMERAX_PERMISSION, 0
+            )
+        }
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -31,5 +40,18 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+    }
+
+    private fun hasRequiredPermissions(): Boolean{
+        return CAMERAX_PERMISSION.all{
+            ContextCompat.checkSelfPermission(
+                applicationContext,it
+            ) == PackageManager.PERMISSION_GRANTED
+        }
+    }
+    companion object {
+        private val CAMERAX_PERMISSION = arrayOf(
+            Manifest.permission.CAMERA
+        )
     }
 }
