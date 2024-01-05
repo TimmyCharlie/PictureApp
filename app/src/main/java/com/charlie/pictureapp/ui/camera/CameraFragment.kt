@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.charlie.pictureapp.databinding.FragmentCameraBinding
 
 class CameraFragment : Fragment() {
@@ -21,11 +20,7 @@ class CameraFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val cameraViewModel =
-            ViewModelProvider(this).get(CameraViewModel::class.java)
-
         _binding = FragmentCameraBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
